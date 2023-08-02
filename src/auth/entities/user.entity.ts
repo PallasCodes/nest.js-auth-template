@@ -12,9 +12,6 @@ export class User {
   id: string
 
   @Column('text')
-  name: string
-
-  @Column('text')
   username: string
 
   @Column('text', { unique: true })
@@ -25,16 +22,6 @@ export class User {
 
   @Column('text', { array: true, default: ['user'] })
   roles: string[]
-
-  @Column('text', {
-    nullable: true,
-    default:
-      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-  })
-  urlProfilePicture: string
-
-  @Column('text', { nullable: true })
-  urlBannerPicture: string
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {

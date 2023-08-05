@@ -1,73 +1,88 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Nest.js Authentication + Swagger template
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+The purpose of this template is to provide you with a ready to use Nest.js project with a basic authentication system and Swagger integration so you can focus on developing your back-end application.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This template uses Passport.js with the JWT Strategy.
 
-## Description
+## Prerequisites
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+You should already have installed
 
-## Installation
+1. Docker
+2. Node.js
+3. Nest.js CLI
+4. Yarn
 
-```bash
-$ yarn install
+## Setup
+
+1. Duplicate the ".template.env" file and rename it to just ".env"
+2. Replace the data with your own configuration
+3. Open the project on your terminal and install all dependencies
+
+```
+yarn
 ```
 
-## Running the app
+## Running the project
 
-```bash
-# development
-$ yarn run start
+1. Open the project on your terminal and run the "docker-compose" file
 
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+```
+docker-compose up -d
 ```
 
-## Test
+2. Run the project with yarn
 
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+```
+yarn start:dev
 ```
 
-## Support
+## Using the authentication system
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Protecting routes
 
-## Stay in touch
+Import the "Auth" decorator and add it on the route you want to add authentication.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```
+import { Auth } from 'src/auth/decorators'
 
-## License
+@Auth()
+@Post()
+createProduct(@Body() createProductDto: CreateProductDto) {
+  return this.productService.createProduct(createProductDto)
+}
+```
 
-Nest is [MIT licensed](LICENSE).
+### Using the user roles system
+
+Import the "ValidRoles" interface and add the allowed roles on the route.
+
+```
+import { Auth } from 'src/auth/decorators'
+import { ValidRoles } from 'src/auth/interfaces'
+
+@Auth(ValidRoles.admin)
+@Post()
+createProduct(@Body() createProductDto: CreateProductDto) {
+  return this.productService.createProduct(createProductDto)
+}
+```
+
+### Getting the authenticated user on the request
+
+Import the "GetUser" decorator and add it within the route's request method decorator. You'll need to add the "Authentication" decorator too.
+
+```
+import { Auth } from 'src/auth/decorators'
+import { GetUser } from '../auth/decorators'
+
+@Auth()
+@Post( @GetUser() user: User)
+createProduct(@Body() createProductDto: CreateProductDto) {
+  return this.productService.createProduct(createProductDto)
+}
+```
+
+## Documenting your API with Swagger
+
+Check the Nest.js official documentation. Here's a [link](https://docs.nestjs.com/openapi/introduction).

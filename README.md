@@ -27,13 +27,13 @@ yarn
 
 1. Open the project on your terminal and run the "docker-compose" file
 
-```
+```bash
 docker-compose up -d
 ```
 
 2. Run the project with yarn
 
-```
+```bash
 yarn start:dev
 ```
 
@@ -43,7 +43,7 @@ yarn start:dev
 
 Import the "Auth" decorator and add it on the route you want to add authentication.
 
-```
+```typescript
 import { Auth } from 'src/auth/decorators'
 
 @Auth()
@@ -57,7 +57,7 @@ createProduct(@Body() createProductDto: CreateProductDto) {
 
 Import the "ValidRoles" interface and add the allowed roles on the route.
 
-```
+```typescript
 import { Auth } from 'src/auth/decorators'
 import { ValidRoles } from 'src/auth/interfaces'
 
@@ -72,7 +72,7 @@ createProduct(@Body() createProductDto: CreateProductDto) {
 
 Import the "GetUser" decorator and add it within the route's request method decorator. You'll need to add the "Authentication" decorator too.
 
-```
+```typescript
 import { Auth } from 'src/auth/decorators'
 import { GetUser } from '../auth/decorators'
 

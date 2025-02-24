@@ -1,9 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { Listing } from 'src/listing/entities/listing.entity'
+import { UserListing } from 'src/listing/entities/user-listing.entity'
 import {
   BeforeInsert,
   BeforeUpdate,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
@@ -31,6 +36,10 @@ export class User {
   @ApiProperty()
   @Column('text', { array: true, default: ['user'] })
   roles: string[]
+
+  @ApiProperty()
+  @OneToMany(() => UserListing, (userListing) => userListing.user)
+  listings: UserListing[]
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {

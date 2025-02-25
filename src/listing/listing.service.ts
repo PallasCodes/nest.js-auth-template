@@ -48,8 +48,11 @@ export class ListingService {
     }
   }
 
-  findAll() {
-    return `This action returns all listing`
+  findAllListingsByUser(user: User) {
+    return this.userListingRepository.find({
+      where: { user: { id: user.id } },
+      relations: ['listing'],
+    })
   }
 
   findOne(id: number) {

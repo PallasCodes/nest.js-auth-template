@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
 import { ListingService } from './listing.service'
 import { CreateListingDto } from './dto/create-listing.dto'
 import { UpdateListingDto } from './dto/update-listing.dto'
@@ -24,8 +16,8 @@ export class ListingController {
   }
 
   @Get()
-  findAll() {
-    return this.listingService.findAll()
+  findAllListingsByUser(@GetUser() user: User) {
+    return this.listingService.findAllListingsByUser(user)
   }
 
   @Get(':id')

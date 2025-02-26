@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+
 import { OriginWebsite } from 'src/types/originWebsites.enum'
 import { UpdateFrecuency } from 'src/types/updateFrecuency.enum'
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { UserListing } from './user-listing.entity'
 
 @Entity('listings')
@@ -20,6 +21,10 @@ export class Listing {
   @Column('enum', { enum: OriginWebsite })
   @ApiProperty({ enum: OriginWebsite })
   website: OriginWebsite
+
+  @ApiProperty()
+  @Column('text', { nullable: true })
+  imgUrl: string
 
   @Column('enum', { enum: UpdateFrecuency, default: UpdateFrecuency['24HRS'] })
   @ApiProperty({ enum: UpdateFrecuency })

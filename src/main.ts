@@ -10,13 +10,13 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api')
 
-  app.useGlobalPipes(
-    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
-  )
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+
+  app.enableCors()
 
   const config = new DocumentBuilder()
-    .setTitle('Twitter')
-    .setDescription('Twitter description')
+    .setTitle('ListingWebScrapper')
+    .setDescription('Listing WebScrapper')
     .setVersion('1.0')
     .build()
   const document = SwaggerModule.createDocument(app, config)
